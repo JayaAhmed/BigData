@@ -1,4 +1,4 @@
-# Data Analysis and Visualization
+# Part B: Data Analysis and Visualization
 
 To understand the relationship between various lifestyle and health factors and hair loss, multiple datasets were integrated, cleaned, and analyzed. The final dataset was created by combining information from different sources, followed by several stages of transformation, exploration, and modeling to uncover meaningful insights.
 
@@ -19,4 +19,37 @@ Various visualizations such as bar plots, regression plots, and correlation heat
 
 6. Model Analysis:
 After data preprocessing, machine learning models such as Random Forest and Logistic Regression were applied to identify important features and predict hair loss outcomes. Model performance was evaluated using accuracy, precision, recall, and confusion matrices.
+
+
+# Part C: Model Selection
+
+To identify which model might work better for the final merged dataset, 7 different models were tested. The models are: 
+
+* Logistic Regression
+* Random Forest
+* Naive Bayes
+* Decision Tree
+* Support Vector Machine (SVM)
+* XGBoost
+* k-Nearest Neighbours (kNN)
+
+For each model, different hyperparameters were tuned across multiple configurations to find the optimal setup. An ablation study was conducted for all models, and each configuration was evaluated using a balanced weighted scoring system based on six performance metrics: F1-score (25%), Recall (20%), Matthews Correlation Coefficient (20%), AUC-ROC (15%), Precision (10%), and Accuracy (10%). This ensured a fair and consistent comparison across models.
+
+After evaluating over 90 total configurations, the XGBoost model emerged as the best performer with the highest weighted score (0.804), showing strong performance in recall, F1-score, and MCC. It was followed closely by Decision Tree (0.801) and Random Forest (0.797). These models were especially effective in capturing complex relationships between features like sleep, stress, and medical condition.
+
+The final results suggest that tree-based ensemble models, especially XGBoost, are most suitable for this classification task due to their high predictive accuracy and ability to model nonlinear interactions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
