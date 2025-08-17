@@ -1,55 +1,48 @@
-# Part B: Data Analysis and Visualization
+# Project Overview
 
-To understand the relationship between various lifestyle and health factors and hair loss, multiple datasets were integrated, cleaned, and analyzed. The final dataset was created by combining information from different sources, followed by several stages of transformation, exploration, and modeling to uncover meaningful insights.
+This project builds a supervised ML pipeline to predict hair loss using lifestyle and health signals, primarily sleep hours, stress level, medical condition (incl. type), and demographics. Two public datasets (Kaggle + Mendeley) were integrated and harmonized to study the combined effects of these factors on hair-loss risk.
 
-1. Loaded and Combined Datasets:
-Multiple CSV files related to hair loss were imported, each containing different attributes such as medical conditions, sleep hours, stress levels, and more. These were combined to form a unified dataset for analysis.
+# Data
 
-2. Cleaned and Simplified the Data: 
-To make the dataset easier to work with, unnecessary columns (e.g., ID, Hair Type) were removed, and some columns were renamed for clarity. A new column, MedicalCondition, was created to indicate whether a person had any medical issue (Yes or No).
+From four candidates, two datasets were selected for integration based on relevance and feature quality; the final unified dataset contains diverse variable types suited to classification analysis.
 
-3. Converted Text to Numbers:
-Categorical text values such as gender and health status were converted into numeric codes, making the dataset compatible with machine learning algorithms.
+**Preprocessing & Integration:** Irrelevant fields were dropped, column names standardized, and missing values imputed. Key harmonisations included: mapping StressLevel to an ordinal scale, normalising SleepHours to numeric units, converting hair-fall counts to a binary HairLoss label using the median threshold, and removing weak/low-quality predictors. The datasets were then merged into a single table. 
+ 
+**Final feature set:** The unified modelling table retained: SleepHours (numeric), StressLevel (ordinal 1–10), MedicalCondition (binary), MedicalConditionType (categorical), Gender_Male (binary), Age (numeric) and the target HairLoss (binary). Class distribution was relatively balanced, so no re-sampling was applied. 
+ 
+# Methodology
 
-4. Reclassified Hair Loss:
-Simplified the HairLoss data into two categories - people with little to no hair loss, and those experiencing significant hair loss - to make the analysis more meaningful.
+* Preprocessing & Feature Harmonisation: Align schemas, encode categories/ordinals, and prepare a single modelling table.
 
-5. Explored the Data Visually:
-Various visualizations such as bar plots, regression plots, and correlation heatmaps were used to explore how hair loss is associated with factors like stress levels, sleep hours, age, and medical conditions.
+* Model Suite (7): Logistic Regression, Decision Tree, Random Forest, Naïve Bayes, SVM, k-NN, and XGBoost. Each model underwent hyperparameter tuning before comparison.
 
-6. Model Analysis:
-After data preprocessing, machine learning models such as Random Forest and Logistic Regression were applied to identify important features and predict hair loss outcomes. Model performance was evaluated using accuracy, precision, recall, and confusion matrices.
+* Train/Test Protocol: 75/25 split for hold-out evaluation.
 
+* Evaluation: Six metrics—Accuracy, Precision, Recall, F1, AUC-ROC, MCC—aggregated via a weighted composite score to emphasise health-relevant performance.
 
-# Part C: Model Selection
+# Results
 
-To identify which model might work better for the final merged dataset, 7 different models were tested. The models are: 
+**Best overall:** XGBoost (weighted 0.804) with strong F1, MCC, recall, and solid AUC-ROC—the most balanced option.
+  
+**Close contenders:** Decision Tree (0.801) and Random Forest (0.797), both handling non-linear interactions well and competitive on recall/AUC.
 
-* Logistic Regression
-* Random Forest
-* Naive Bayes
-* Decision Tree
-* Support Vector Machine (SVM)
-* XGBoost
-* k-Nearest Neighbours (kNN)
+**Mid pack:** SVM (0.790) and k-NN (0.789) were close but showed precision–recall trade-offs; k-NN was sensitive to scaling/neighbour size.
 
-For each model, different hyperparameters were tuned across multiple configurations to find the optimal setup. An ablation study was conducted for all models, and each configuration was evaluated using a balanced weighted scoring system based on six performance metrics: F1-score (25%), Recall (20%), Matthews Correlation Coefficient (20%), AUC-ROC (15%), Precision (10%), and Accuracy (10%). This ensured a fair and consistent comparison across models.
+**Feature signals:** MedicalCondition and MedicalConditionType dominated; SleepHours showed a protective trend; StressLevel elevated risk; Age/Gender weaker.
 
-After evaluating over 90 total configurations, the XGBoost model emerged as the best performer with the highest weighted score (0.804), showing strong performance in recall, F1-score, and MCC. It was followed closely by Decision Tree (0.801) and Random Forest (0.797). These models were especially effective in capturing complex relationships between features like sleep, stress, and medical condition.
-
-The final results suggest that tree-based ensemble models, especially XGBoost, are most suitable for this classification task due to their high predictive accuracy and ability to model nonlinear interactions.
+**Takeaway:** The weighted composite (F1/Recall/MCC-heavy) explains XGBoost’s win. Prefer XGBoost for performance; choose Decision Tree or Random Forest if interpretability is key.
 
 
+# Limitations
 
+**Compute constraints:** Experiments ran on a MacBook Air (M3, 8 GB), limiting exploration of more computationally intensive models (e.g., deep learning) and extensive cross-validation; higher-performance hardware would enable broader, faster optimisation. 
 
+**Data scope & generalizability:** About 2,700 survey-based records with missing factors (e.g., genetics, detailed nutrition, longitudinal follow-up) constrain comprehensiveness and external validity. 
 
+**Interpretability vs performance:** XGBoost led overall but is less transparent than simpler models, posing adoption challenges in clinical contexts.
 
+# Future work
 
+Incorporate larger, longitudinal datasets, add predictors such as genetics and nutrition, and deepen interpretability methods to support clinical use; with more compute, evaluate heavier models and more exhaustive validation.
 
-
-
-
-
-
-
-
+  
